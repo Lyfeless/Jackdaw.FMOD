@@ -9,6 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Jackdaw\Jackdaw.csproj" />
+    <ProjectReference Include="..\Jackdaw\Jackdaw\Jackdaw.csproj" />
   </ItemGroup>
 </Project>

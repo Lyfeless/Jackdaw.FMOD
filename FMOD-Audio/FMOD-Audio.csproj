@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <PackageReference Include="JackdawEngine" Version="0.1.1" />
-    <PackageReference Include="JackdawEngine.FMOD" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>

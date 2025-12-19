@@ -25,14 +25,16 @@ public class AudioManager(Game game, string directory = "") : Component(game) {
         FMODInstance.initialize(1024, INITFLAGS.NORMAL, FMOD.INITFLAGS.NORMAL, IntPtr.Zero);
 
         string path = Path.Join(Game.Assets.Config.RootFolder, BankPath);
-        if (Path.Exists(path)) {
-            foreach (string file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories).Where(e => e.EndsWith(STRINGS_EXTENSION))) {
-                LoadBank(file);
-            }
+        if (!Path.Exists(path)) { return; }
 
-            foreach (string file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories).Where(e => e.EndsWith(BANK_EXTENSION) && !e.EndsWith(STRINGS_EXTENSION))) {
-                LoadBank(file);
-            }
+        IEnumerable<string> files = Assets.GetEnumeratedFiles(path, BANK_EXTENSION);
+
+        foreach (string file in files.Where(e => e.EndsWith(STRINGS_EXTENSION))) {
+            LoadBank(file);
+        }
+
+        foreach (string file in files.Where(e => !e.EndsWith(STRINGS_EXTENSION))) {
+            LoadBank(file);
         }
     }
 

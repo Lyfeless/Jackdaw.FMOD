@@ -2,25 +2,23 @@ using FMOD.Studio;
 
 namespace Jackdaw.Audio.FMODAudio;
 
-public class AudioLoader(FMOD.Studio.System instance, string path) : AssetLoaderStage {
+public class AudioLoader(FMOD.Studio.System instance, string group) : AssetLoaderStage {
     const string BANK_EXTENSION = ".bank";
-    const string STRINGS_EXTENSION = ".strings.bank";
+    const string STRINGS_EXTENSION = "strings";
 
-    readonly string FilePath = path;
+    readonly string Group = group;
     readonly FMOD.Studio.System FMODInstance = instance;
 
     public override void Run(Assets assets) {
-        if (!Path.Exists(FilePath)) { return; }
-
         AudioStorage storage = new(FMODInstance);
 
-        IEnumerable<string> files = Assets.GetEnumeratedFiles(FilePath, BANK_EXTENSION);
+        AssetProviderItem[] banks = assets.Provider.GetItemsInGroup(Group, BANK_EXTENSION);
 
-        foreach (string file in files.Where(e => e.EndsWith(STRINGS_EXTENSION))) {
+        foreach (AssetProviderItem file in banks.Where(e => e.Name.EndsWith(STRINGS_EXTENSION))) {
             LoadBank(assets, storage, file);
         }
 
-        foreach (string file in files.Where(e => !e.EndsWith(STRINGS_EXTENSION))) {
+        foreach (AssetProviderItem file in banks.Where(e => !e.Name.EndsWith(STRINGS_EXTENSION))) {
             LoadBank(assets, storage, file);
         }
 
@@ -28,8 +26,11 @@ public class AudioLoader(FMOD.Studio.System instance, string path) : AssetLoader
         assets.SetFallback<Bank>(new());
     }
 
-    void LoadBank(Assets assets, AudioStorage storage, string bank) {
-        FMODInstance.loadBankFile(bank, LOAD_BANK_FLAGS.NORMAL, out Bank bankData);
+    void LoadBank(Assets assets, AudioStorage storage, AssetProviderItem bank) {
+        using Stream stream = assets.Provider.GetItemStream(bank);
+        byte[] bytes = new byte[stream.Length];
+        stream.ReadExactly(bytes);
+        FMODInstance.loadBankMemory(bytes, LOAD_BANK_FLAGS.NORMAL, out Bank bankData);
 
         bankData.getEventList(out EventDescription[] bankEvents);
         foreach (EventDescription bankEvent in bankEvents) {

@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JackdawEngine" Version="0.2.2" />
+    <PackageReference Include="JackdawEngine" Version="0.3.*" />
   </ItemGroup>
 
   <ItemGroup>

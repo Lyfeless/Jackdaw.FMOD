@@ -10,6 +10,7 @@ public class AudioStorage(FMOD.Studio.System instance) : IAssetStorage {
     internal EventDescription Fallback = new();
 
     public void Add(string name, object asset) { }
+    public void Remove(string name) { }
 
     public object Get(string name) {
         if (Events.TryGetValue(name, out EventDescription output)) { return new SoundEvent(output); }

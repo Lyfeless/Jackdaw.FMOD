@@ -29,7 +29,7 @@ public class SoundPlayerComponent(Game game, SoundEvent soundEvent, bool autopla
     /// <param name="audio">The audio manager.</param>
     /// <param name="soundEvent">The sound event to play.</param>
     /// <param name="autoplay">If the sound should start playing automatically when added to the actor tree.</param>
-    public SoundPlayerComponent(Game game, AudioManager audio, string soundEvent, bool autoplay = false) : this(game, audio.Get(soundEvent), autoplay) { }
+    public SoundPlayerComponent(Game game, AudioManager audio, string soundEvent, bool autoplay = false) : this(game, game.Assets.GetSoundEvent(soundEvent), autoplay) { }
 
     /// <summary>
     /// If the sound is paused.

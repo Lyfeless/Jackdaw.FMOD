@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 
     <Title>Jackdaw.FMOD</Title>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <Authors>Lyfeless</Authors>
     <Description>An extension for using FMOD in Jackdaw.</Description>
     <RepositoryType>git</RepositoryType>
@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JackdawEngine" Version="0.3.*" />
+    <PackageReference Include="JackdawEngine" Version="0.4.*" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
 using FMOD.Studio;
+using Foster.Framework;
 
 namespace Jackdaw.Audio.FMODAudio;
 
@@ -37,8 +38,8 @@ public class AudioLoader(FMOD.Studio.System instance, string group) : AssetLoade
 
     void LoadBank(Assets assets, AssetProviderItem bank) {
         using Stream stream = assets.Provider.GetItemStream(bank);
-        byte[] bytes = new byte[stream.Length];
-        stream.ReadExactly(bytes);
+        byte[] bytes = Calc.ReadAllBytes(stream);
+
         FMODInstance.loadBankMemory(bytes, LOAD_BANK_FLAGS.NORMAL, out Bank bankData);
 
         if (!CachedBankInfo.TryGetValue(bank, out BankInfo bankInfo)) {
